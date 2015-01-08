@@ -20,7 +20,7 @@ class Git {
         if (empty($wd)) {
             $wd = getcwd();
         }
-        $this->wd = $wd;
+        $this->wd = realpath($wd);
     }
 
     /**
@@ -31,7 +31,11 @@ class Git {
      * @return  string              Output
      */
     public function git($cmd) {
+        $cwd = getcwd();
+        chdir($this->wd);
         exec("git $cmd", $out, $code);
+        chdir($cwd);
+
         if ($code != 0)
             throw new \RuntimeException(sprintf("Failed to run 'git %s'. Error Output=%s", $cmd, $out));
         return $out;
@@ -42,7 +46,7 @@ class Git {
      * @return string Current branch
      */
     public function getCurrentBranch() {
-        return $this->git("rev-parse --abbrev-ref HEAD");
+        return reset($this->git("rev-parse --abbrev-ref HEAD"));
     }
 
     public function status($options = "") {
@@ -51,13 +55,16 @@ class Git {
 
     }
 
+    /**
+     * @return bool Returns true if working directory is dirty
+     */
     public function isDirty(){
         $status = $this->status("--porcelain");
-        return strlen(trim($status)) != 0;
+        return count($status) != 0;
     }
 
-    public function describe($options = ""){
-        return $this->git("describe $options");
+    public function describe($options = "--tags"){
+        return reset($this->git("describe $options"));
     }
 
     public function getVersionTag(){

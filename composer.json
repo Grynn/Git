@@ -13,14 +13,17 @@
   "require": {
     "php": ">=5.3.3"
   },
+  "require-dev": {
+    "phpunit/phpunit": "dev-master"
+  },
   "autoload": {
     "psr-4": {
       "Grynn\\": "src/"
     }
   },
+  "scripts": {
+    "test": "phpunit -v --colors test/"
+  },
   "extra": {
-    "###branch-alias": {
-      "dev-master": "1.0-dev"
-    }
   }
 }
