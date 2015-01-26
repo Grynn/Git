@@ -3,7 +3,7 @@
   "description": "A simple wrapper for git (depends on the git executable). Supports subset of commands useful for versioning projects",
   "keywords": ["git"],
   "homepage": "http://github.com/Grynn/grynn-git",
-  "license": "private",
+  "license": "proprietary",
   "authors": [
     {
       "name": "Vishal Doshi",
@@ -11,10 +11,13 @@
     }
   ],
   "require": {
-    "php": ">=5.3.3"
+    "php": ">=5.3.3",
+    "psr/log": "~1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "dev-master"
+    "league/climate": "dev-master",
+    "jakub-onderka/php-parallel-lint": "dev-master",
+    "pwfisher/command-line-php": "dev-master#ce756a94efa3544b56d03a02d3634a8d969ee962"
   },
   "autoload": {
     "psr-4": {
@@ -22,8 +25,10 @@
     }
   },
   "scripts": {
-    "test": "phpunit -v --colors test/"
+    "test": "phpunit -v --colors test/",
+    "lint": "\"./vendor/bin/parallel-lint\" --exclude \"vendor/\" ."
   },
   "extra": {
+	"comment": "This is not really proprietary, but it's not yet in a shape that's useable..."
   }
 }
